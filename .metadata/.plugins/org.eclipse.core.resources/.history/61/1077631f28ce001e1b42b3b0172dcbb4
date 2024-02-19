@@ -1,0 +1,10 @@
+package com.saviasoft.backend.apirest.dto;
+
+public class Response<T> {
+
+	private int code;
+
+	private String error;
+
+	private T responseObject;
+}
