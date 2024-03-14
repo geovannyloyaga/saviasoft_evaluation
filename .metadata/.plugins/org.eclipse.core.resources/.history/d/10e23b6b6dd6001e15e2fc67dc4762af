@@ -1,0 +1,5 @@
+package com.saviasoft.backend.apirest.dto;
+
+public class PersonDto {
+
+}

@@ -1,0 +1,20 @@
+package com.saviasoft.backend.apirest.dto;
+
+import java.util.Date;
+
+public class PersonDto {
+	
+	private Long id;
+
+	private String name;
+
+	private String lastname;
+
+	private String email;
+
+	private Date birthday;
+
+	private double salary;
+	
+	private Long country_id;
+}

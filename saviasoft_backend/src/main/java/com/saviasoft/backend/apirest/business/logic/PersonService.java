@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.saviasoft.backend.apirest.dao.PersonDao;
+import com.saviasoft.backend.apirest.dto.PersonDto;
 import com.saviasoft.backend.apirest.dto.ResponseDto;
 import com.saviasoft.backend.apirest.dto.ResponseListDto;
+import com.saviasoft.backend.apirest.entities.Country;
 import com.saviasoft.backend.apirest.entities.Person;
 import com.saviasoft.backend.apirest.interfaces.IPersonService;
 
@@ -31,7 +33,7 @@ public class PersonService implements IPersonService {
 	private PlatformTransactionManager transactionManager;
 	
 	@Override
-	public ResponseDto<Person> save(Person person) {
+	public ResponseDto<Person> save(PersonDto person) {
 		Person personCreated = null;
 		ResponseDto<Person> responsePerson = new ResponseDto<Person>(200, null, null);
 		
@@ -41,7 +43,11 @@ public class PersonService implements IPersonService {
 		TransactionStatus statusTransaction = this.transactionManager.getTransaction(definirTransaccion);
 		
 		try {
-			personCreated = this.personDao.save(person);
+			Country country = new Country();
+			country.setId(person.getCountry_id());
+			Person newPerson = new Person(null, person.getName(), person.getLastname(), person.getEmail(), person.getBirthday(), person.getSalary(), country);
+			
+			personCreated = this.personDao.save(newPerson);
 			if (personCreated != null && personCreated.getId() != null) {
 				responsePerson.setResponseObject(personCreated);
 				this.transactionManager.commit(statusTransaction);

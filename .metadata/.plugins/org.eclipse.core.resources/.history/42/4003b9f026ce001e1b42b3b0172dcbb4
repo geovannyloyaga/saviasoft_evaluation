@@ -1,5 +1,0 @@
-package com.saviasoft.backend.apirest.dao;
-
-public class PersonDao {
-
-}

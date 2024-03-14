@@ -1,5 +1,0 @@
-package com.saviasoft.backend.apirest.spring.config;
-
-public class CorsConfiguration {
-
-}

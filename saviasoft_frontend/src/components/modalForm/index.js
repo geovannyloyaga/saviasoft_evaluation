@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -9,9 +9,25 @@ import moment from "moment";
 
 const ModalForm = ({ open, person, onHide }) => {
   const [personForm, setPersonForm] = useState(person);
+  const [countryList, setCountryList] = useState([]);
 
   const changeValueForm = (name, value) => {
     setPersonForm({ ...personForm, [name]: value });
+  };
+
+  const getCountryList = () => {
+    axios
+      .get("http://localhost:8081/api/countries/getCountryList")
+      .then(function (response) {
+        if (response.data?.code !== 200) {
+          alert(response.data?.error);
+        }
+        setCountryList(response.data?.responseList ?? []);
+      })
+      .catch(function (error) {
+        alert("Ocurrio un problema");
+      })
+      .finally(function () {});
   };
 
   const processForm = () => {
@@ -58,6 +74,12 @@ const ModalForm = ({ open, person, onHide }) => {
       })
       .finally(function () {});
   };
+
+  useEffect(() => {
+    getCountryList();
+
+    return () => {};
+  }, []);
 
   return (
     <Modal
@@ -108,7 +130,24 @@ const ModalForm = ({ open, person, onHide }) => {
                 />
               </Form.Group>
             </Col>
-            <Col xs={12}>
+            <Col xs={4}>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>País</Form.Label>
+                <Form.Select
+                  onChange={(event) => {
+                    changeValueForm("country_id", event.target.value);
+                  }}
+                >
+                  {countryList.map((country) => (
+                    <option value={country?.id}>{country?.nombre}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col xs={8}>
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"

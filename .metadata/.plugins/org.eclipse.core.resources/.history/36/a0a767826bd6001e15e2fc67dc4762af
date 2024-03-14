@@ -1,0 +1,33 @@
+package com.saviasoft.backend.apirest.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.saviasoft.backend.apirest.dto.ResponseListDto;
+import com.saviasoft.backend.apirest.entities.Person;
+import com.saviasoft.backend.apirest.interfaces.ICountryService;
+import com.saviasoft.backend.apirest.interfaces.IPersonService;
+
+@RestController
+@RequestMapping("api/countries")
+public class CountryRestController {
+	
+	@Autowired
+	private ICountryService countryService;
+	
+	public void setCountryService(ICountryService countryService) {
+		this.countryService = countryService;
+	}
+
+	@GetMapping("/getPersonList")
+	public ResponseListDto<Person> getPersonList(){
+		try {
+			ResponseListDto<Person> personsFound = this.personService.getPersonList();
+			return personsFound;
+		} catch (Exception e) {
+			return new ResponseListDto<Person>(409, "Error para obtener lista de personas", null, 0);
+		}
+	}
+}

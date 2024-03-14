@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.saviasoft.backend.apirest.dto.PersonDto;
 import com.saviasoft.backend.apirest.dto.ResponseDto;
 import com.saviasoft.backend.apirest.dto.ResponseListDto;
 import com.saviasoft.backend.apirest.entities.Person;
@@ -37,7 +38,7 @@ public class PersonRestController {
 	}
 
 	@PostMapping("/save")
-	public ResponseDto<Person> save(@RequestBody Person requestPeron){
+	public ResponseDto<Person> save(@RequestBody PersonDto requestPeron){
 		try {
 			ResponseDto<Person> personCreated = this.personService.save(requestPeron);
 			return personCreated;
